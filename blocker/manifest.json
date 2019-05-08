@@ -1,0 +1,30 @@
+{
+
+  "manifest_version": 2,
+  "name": "Blocker",
+  "version": "1.1",
+
+  "description": "Blocker",
+  "icons": {
+    "48": "icons/blocker-48.png"
+  },
+
+  "permissions": [
+    "storage"
+  ],
+
+  "browser_action": {
+    "default_icon": {
+     "32" : "icons/blocker-32.png"
+    },
+    "default_title": "Blocker",
+    "default_popup": "popup/popup.html"
+  },
+
+  "applications": {
+    "gecko": {
+      "id": "blocker-filler@blocker.com"
+    }
+  }
+
+}
