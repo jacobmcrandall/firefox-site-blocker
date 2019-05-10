@@ -14,23 +14,31 @@ function onError(error) {
 initialize();
 
 function initialize() {
-  console.log(txtWhiteList);
   var wstring = getSetting('whitelist');
   var bstring = getSetting('blacklist');
 
-  txtWhiteList.value = wstring;
-  txtBlackList.value = bstring;
+  txtWhitelist.value = wstring;
+  txtBlacklist.value = bstring;
 
   warray = parseStringToList(wstring);
   barray = parseStringToList(bstring);
 }
 
+/*
+.then((tabs) => {
+      return browser.storage.local.get(tabs[0].url);
+    })
+    .then((storedInfo) => {
+      contentBox.textContent = storedInfo[Object.keys(storedInfo)[0]];
+});
+*/
+
 function getSetting(param){
   var retVal = '';
-  var gettingAllStorageItems = browser.storage.local.get(param);
-  gettingAllStorageItems.then((results) => {
-    return results;
-  }, onError);
+  var gettingAllStorageItems = browser.storage.local.get(param).then((value) => {
+    console.log(value);
+    console.log(value['whitelist']);
+  });
 
   return retVal;
 }
@@ -40,22 +48,9 @@ function parseStringToList(str){
 }
 
 function save() {
-  browser.storage.local.set({ 'whitelist' : txtWhitelist.val });
-  browser.storage.local.set({ 'blacklist' : txtBlacklist.val });
-}
-
-/* function to update notes */
-
-function updateNote(delNote,newTitle,newBody) {
-  var storingNote = browser.storage.local.set({ [newTitle] : newBody });
-  storingNote.then(() => {
-    if(delNote !== newTitle) {
-      var removingNote = browser.storage.local.remove(delNote);
-      removingNote.then(() => {
-        displayNote(newTitle, newBody);
-      }, onError);
-    } else {
-      displayNote(newTitle, newBody);
-    }
-  }, onError);
+  var obj = {};
+  obj['whitelist'] = txtWhitelist.value;
+  obj['blacklist'] = txtBlacklist.value;
+  console.log(obj);
+  browser.storage.local.set(obj);
 }
